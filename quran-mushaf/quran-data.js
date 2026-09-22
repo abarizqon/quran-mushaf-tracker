@@ -326,23 +326,36 @@ export function getAllJuz() {
 }
 
 /**
+ * Ambil info juz berdasarkan nomor halaman.
+ * @param {number} pageNumber - Nomor halaman (1-604)
+ * @returns {object|null}
+ */
+export function getJuzByPage(pageNumber) {
+    const details = getPageDetails(pageNumber);
+    if (!details) return null;
+    return getJuzInfo(details.juz);
+}
+
+/**
  * Ambil progres juz berdasarkan nomor halaman saat ini.
  * @param {number} pageNumber - Nomor halaman (1-604)
  * @returns {{ juz: number, pageInJuz: number, totalPages: number, percent: number, isLastPage: boolean, remainPages: number, startPage: number, endPage: number }}
  */
 export function getJuzProgress(pageNumber) {
     const p = Math.max(1, Math.min(TOTAL_PAGES, parseInt(pageNumber) || 1));
-    const juzInfo = getJuzByPage(p);
-    const start = juzInfo.startPage;
-    const end = juzInfo.endPage;
-    const total = end - start + 1;
+    const details = getPageDetails(p);
+    if (!details) return null;
+
+    const start = details.juzStartPage;
+    const end = details.juzEndPage;
+    const total = details.juzTotalPages;
     const currentInJuz = p - start + 1;
     const percent = Math.min(100, Math.round((currentInJuz / total) * 100));
     const remain = Math.max(0, end - p);
     const isLastPage = (p === end);
 
     return {
-        juz: juzInfo.juz,
+        juz: details.juz,
         pageInJuz: currentInJuz,
         totalPages: total,
         percent: percent,
