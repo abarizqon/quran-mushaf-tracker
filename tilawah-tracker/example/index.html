@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demo & Dokumentasi Tilawah Tracker Module</title>
+    <link rel="stylesheet" href="../tilawah-widget.css">
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: #f8fafc;
+            color: #0f172a;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+        }
+        .demo-nav {
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 14px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .demo-wrap {
+            max-width: 1000px;
+            margin: 30px auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+        @media (max-width: 768px) {
+            .demo-wrap { grid-template-columns: 1fr; }
+        }
+        .demo-card {
+            background: white;
+            padding: 24px;
+            border-radius: 14px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            border: 1px solid #e2e8f0;
+        }
+        .btn-action {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            width: 100%;
+            padding: 10px 16px;
+            background-color: #006b3f;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 0.88rem;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+        .btn-action:hover { background-color: #005632; }
+        .btn-action.danger { background-color: #dc2626; }
+        .btn-action.danger:hover { background-color: #b91c1c; }
+        .btn-action.amber { background-color: #d97706; }
+        .btn-action.amber:hover { background-color: #b45309; }
+
+        input, select {
+            width: 100%;
+            padding: 9px 12px;
+            border: 1.5px solid #cbd5e1;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            margin-bottom: 12px;
+            outline: none;
+        }
+        input:focus, select:focus { border-color: #006b3f; }
+        label {
+            display: block;
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: #475569;
+            margin-bottom: 4px;
+        }
+        .timer-badge-active {
+            background: #ecfdf5;
+            border: 1px solid #a7f3d0;
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+            margin-bottom: 14px;
+        }
+        .code-box {
+            background: #0f172a;
+            color: #f8fafc;
+            padding: 16px;
+            border-radius: 10px;
+            font-family: monospace;
+            font-size: 0.82rem;
+            overflow-x: auto;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="demo-nav">
+        <div style="display:flex; align-items:center; gap:10px;">
+            <span style="font-weight:800; font-size:1.1rem; color:#006b3f;">@masjidbilal/tilawah-tracker</span>
+            <span style="background:#ecfdf5; color:#006b3f; font-size:0.75rem; font-weight:800; padding:3px 8px; border-radius:6px;">v1.1.0</span>
+        </div>
+        <div style="font-size:0.85rem; color:#64748b; font-weight:600;">Modul Open-Source Ekosistem Masjid Bilal</div>
+    </nav>
+
+    <div class="demo-wrap">
+        <!-- SISI KIRI: WIDGET INTERAKTIF -->
+        <div>
+            <h3 style="margin-top:0; color:#0f172a;">Live Widget Preview</h3>
+            <div id="widget-container"></div>
+        </div>
+
+        <!-- SISI KANAN: PANEL SIMULATOR BACAAN -->
+        <div class="demo-card">
+            <h3 style="margin-top:0; color:#0f172a;">Simulasi Sesi Tilawah</h3>
+            
+            <!-- SESI REAL-TIME AUTO TIMER -->
+            <div id="sessionNotActive">
+                <label for="autoPage">Halaman yang Ingin Dibaca (1 - 604):</label>
+                <input type="number" id="autoPage" min="1" max="604" value="1">
+                <button type="button" class="btn-action" id="btnStartSession">⏱️ Mulai Sesi Membaca (Timer 5 Detik Demo)</button>
+            </div>
+
+            <div id="sessionActive" style="display:none;">
+                <div class="timer-badge-active">
+                    <div style="font-size:0.8rem; color:#047857; font-weight:700;">📖 Sedang Membaca Halaman <span id="readingPageNum">1</span></div>
+                    <div style="font-size:1.4rem; font-weight:800; color:#006b3f; margin:6px 0;" id="readingTimerText">00:05</div>
+                    <div style="font-size:0.74rem; color:#64748b;">Halaman sah tercatat jika timer tuntas mencapai 0s</div>
+                </div>
+                <button type="button" class="btn-action danger" id="btnCancelSession">Batal Membaca</button>
+            </div>
+
+            <hr style="border:none; border-top:1px solid #e2e8f0; margin:22px 0;">
+
+            <!-- INPUT MANUAL RENTANG HALAMAN -->
+            <h4 style="margin:0 0 10px 0; color:#334155;">Catat Bacaan Manual</h4>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+                <div>
+                    <label for="manualFrom">Dari Halaman:</label>
+                    <input type="number" id="manualFrom" min="1" max="604" placeholder="Contoh: 1">
+                </div>
+                <div>
+                    <label for="manualTo">Sampai Halaman:</label>
+                    <input type="number" id="manualTo" min="1" max="604" placeholder="Contoh: 20">
+                </div>
+            </div>
+            <button type="button" class="btn-action" id="btnSaveManual">Simpan Log Manual</button>
+
+            <hr style="border:none; border-top:1px solid #e2e8f0; margin:22px 0;">
+
+            <!-- RESET KHATAM -->
+            <button type="button" class="btn-action amber" id="btnResetKhatam">🔄 Mulai Siklus Khatam Baru (Reset)</button>
+
+            <div class="code-box">
+// Contoh Penggunaan di Proyek Anda:
+import TilawahTracker from './tilawah-tracker.js';
+import LocalStorageAdapter from './adapters/localstorage-adapter.js';
+
+const tracker = new TilawahTracker({
+  adapter: new LocalStorageAdapter(),
+  userId: 'user_123',
+  autoDetectThreshold: 30 // 30 detik
+});
+
+// Mulai sesi baca
+tracker.startReadingSession(pageNumber, {
+  onTick: (remain) => console.log(remain),
+  onComplete: () => alert('✅ Halaman tuntas!')
+});
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import TilawahTracker from '../tilawah-tracker.js';
+        import LocalStorageAdapter from '../adapters/localstorage-adapter.js';
+        import TilawahWidget from '../tilawah-widget.js';
+
+        const adapter = new LocalStorageAdapter();
+        // Set threshold 5 detik untuk kebutuhan demonstrasi live
+        const tracker = new TilawahTracker({
+            adapter: adapter,
+            userId: 'demo-tilawah-user-v1',
+            autoDetectThreshold: 5 
+        });
+
+        const widget = new TilawahWidget(tracker, {
+            onJuzClick: (juz) => {
+                alert(`Anda memilih Juz ${juz}. Hubungkan dengan modul @masjidbilal/quran-mushaf untuk membuka halaman Juz ini!`);
+            }
+        });
+        widget.render('widget-container');
+
+        // Logic Simulasi Timer
+        const sessionNotActive = document.getElementById('sessionNotActive');
+        const sessionActive = document.getElementById('sessionActive');
+        const autoPageInput = document.getElementById('autoPage');
+        const readingPageNum = document.getElementById('readingPageNum');
+        const readingTimerText = document.getElementById('readingTimerText');
+
+        document.getElementById('btnStartSession').addEventListener('click', () => {
+            const page = parseInt(autoPageInput.value) || 1;
+            readingPageNum.textContent = page;
+            sessionNotActive.style.display = 'none';
+            sessionActive.style.display = 'block';
+
+            tracker.startReadingSession(page, {
+                onTick: (remain, elapsed) => {
+                    readingTimerText.textContent = `00:0${remain}`;
+                },
+                onComplete: (completedPage) => {
+                    sessionNotActive.style.display = 'block';
+                    sessionActive.style.display = 'none';
+                    widget.update();
+                    alert(`✅ Alhamdulillah! Halaman ${completedPage} tuntas dibaca dan tercatat ke log.`);
+                }
+            });
+        });
+
+        document.getElementById('btnCancelSession').addEventListener('click', () => {
+            tracker.stopReadingSession();
+            sessionNotActive.style.display = 'block';
+            sessionActive.style.display = 'none';
+        });
+
+        document.getElementById('btnSaveManual').addEventListener('click', async () => {
+            const from = parseInt(document.getElementById('manualFrom').value);
+            const to = parseInt(document.getElementById('manualTo').value);
+
+            if (from && to && from <= to) {
+                await tracker.reportPages(from, to, new Date(), "Input manual simulasi", "manual");
+                widget.update();
+                alert(`✅ Halaman ${from} - ${to} berhasil dicatat.`);
+            } else {
+                alert("Harap masukkan rentang halaman yang valid (1-604).");
+            }
+        });
+
+        document.getElementById('btnResetKhatam').addEventListener('click', async () => {
+            if (confirm('Mulai siklus khatam baru? Halaman saat ini akan direset dan jumlah khatam akan bertambah.')) {
+                await tracker.resetKhatam();
+                widget.update();
+                alert('Siklus khatam baru telah dimulai!');
+            }
+        });
+    </script>
+</body>
+</html>

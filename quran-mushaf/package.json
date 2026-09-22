@@ -1,0 +1,22 @@
+{
+  "name": "@masjidbilal/quran-mushaf",
+  "version": "1.1.0",
+  "description": "Standalone & Offline-First Holy Quran Mushaf (604 pages Uthmani) with 5-tier Juz progress bar, tap fullscreen, and CacheStorage",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "node -e \"import('./index.js').then(() => console.log('OK'))\""
+  },
+  "keywords": [
+    "quran",
+    "mushaf",
+    "madinah",
+    "uthmani",
+    "islamic",
+    "offline-first",
+    "pwa",
+    "tilawah"
+  ],
+  "author": "Masjid Bilal Ecosystem",
+  "license": "MIT"
+}

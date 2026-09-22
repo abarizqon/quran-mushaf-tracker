@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dzikir Tracker - Standalone Example</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../dzikir-widget.css">
+    <style>
+        body {
+            background-color: #f8fafc;
+            margin: 0;
+            padding: 20px 0;
+            font-family: 'Inter', sans-serif;
+        }
+        header {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+        header h1 {
+            color: #006b3f;
+            margin: 0 0 6px;
+            font-size: 1.5rem;
+            font-weight: 800;
+        }
+        header p {
+            color: #64748b;
+            margin: 0;
+            font-size: 0.85rem;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Dzikir Tracker Standalone</h1>
+        <p>Modul Dzikir Hisnul Muslim 100% Offline</p>
+    </header>
+
+    <div id="dzikirApp"></div>
+
+    <script type="module">
+        import DzikirWidget from '../dzikir-widget.js';
+        
+        new DzikirWidget({
+            container: '#dzikirApp'
+        });
+    </script>
+</body>
+</html>

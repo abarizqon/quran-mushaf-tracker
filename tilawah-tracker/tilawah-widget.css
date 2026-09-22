@@ -1,0 +1,236 @@
+/* 
+  Styles for TilawahWidget
+  Desain responsif, clean, dan profesional (#006b3f)
+*/
+
+:root {
+  --tilawah-primary: #006b3f;
+  --tilawah-primary-light: #e8f5e9;
+  --tilawah-text-dark: #1e293b;
+  --tilawah-text-light: #64748b;
+  --tilawah-bg: #ffffff;
+  --tilawah-border: #e2e8f0;
+  --tilawah-ring-bg: #f1f5f9;
+}
+
+.tilawah-widget {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background-color: var(--tilawah-bg);
+  border: 1px solid var(--tilawah-border);
+  border-radius: 14px;
+  padding: 20px;
+  max-width: 440px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  color: var(--tilawah-text-dark);
+  box-sizing: border-box;
+}
+
+.tw-header h3 {
+  margin: 0 0 16px 0;
+  text-align: center;
+  color: var(--tilawah-primary);
+  font-size: 1.15rem;
+  font-weight: 800;
+}
+
+.tw-sub-title {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #334155;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.tw-progress-container {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  margin: 0 auto 18px auto;
+}
+
+.tw-progress-ring {
+  transform: rotate(-90deg);
+}
+
+.tw-ring-bg {
+  stroke: var(--tilawah-ring-bg);
+}
+
+.tw-ring-value {
+  stroke: var(--tilawah-primary);
+  transition: stroke-dashoffset 0.5s ease-out;
+}
+
+.tw-progress-text {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tw-percent {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--tilawah-primary);
+}
+
+.tw-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.tw-stat-card {
+  background-color: var(--tilawah-primary-light);
+  padding: 10px 8px;
+  border-radius: 10px;
+  text-align: center;
+  border: 1px solid #c8e6c9;
+}
+
+.tw-stat-title {
+  font-size: 0.72rem;
+  color: var(--tilawah-text-light);
+  margin-bottom: 4px;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.tw-stat-val {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: var(--tilawah-primary);
+}
+
+/* PETA KHATAM 30 JUZ */
+.tw-juz-map-section {
+  margin-bottom: 20px;
+  padding-top: 14px;
+  border-top: 1px solid var(--tilawah-border);
+}
+
+.tw-juz-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 6px;
+}
+
+.tw-juz-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 36px;
+  background: #f8fafc;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #475569;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  padding: 0;
+}
+
+.tw-juz-item:hover {
+  transform: translateY(-2px);
+  border-color: var(--tilawah-primary);
+  color: var(--tilawah-primary);
+}
+
+.tw-juz-item.started {
+  background: #e0f2fe;
+  border-color: #7dd3fc;
+  color: #0369a1;
+}
+
+.tw-juz-item.completed {
+  background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+  border-color: #f59e0b;
+  color: #b45309;
+  box-shadow: 0 2px 6px rgba(245, 158, 11, 0.25);
+}
+
+.tw-juz-trophy {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  font-size: 0.65rem;
+}
+
+/* RECENT LOGS */
+.tw-recent-logs {
+  padding-top: 14px;
+  border-top: 1px solid var(--tilawah-border);
+}
+
+.tw-log-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.tw-log-list li {
+  padding: 8px 0;
+  border-bottom: 1px dashed var(--tilawah-border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.tw-log-list li:last-child {
+  border-bottom: none;
+}
+
+.tw-log-date {
+  font-size: 0.8rem;
+  color: var(--tilawah-text-light);
+  font-weight: 600;
+}
+
+.tw-log-detail {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--tilawah-text-dark);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.tw-badge {
+  font-size: 0.68rem;
+  padding: 2px 7px;
+  border-radius: 6px;
+  font-weight: 700;
+}
+.tw-badge.auto {
+  background-color: #e8f5e9;
+  color: #006b3f;
+  border: 1px solid #a7f3d0;
+}
+.tw-badge.manual {
+  background-color: #fff3e0;
+  color: #e65100;
+  border: 1px solid #ffe0b2;
+}
+
+.tw-no-logs {
+  font-size: 0.85rem;
+  color: var(--tilawah-text-light);
+  text-align: center;
+  font-style: italic;
+  margin: 8px 0;
+}
+
+.tw-loading {
+  text-align: center;
+  color: var(--tilawah-text-light);
+  padding: 30px;
+  font-size: 0.9rem;
+}

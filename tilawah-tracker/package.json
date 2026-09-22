@@ -1,0 +1,21 @@
+{
+  "name": "@masjidbilal/tilawah-tracker",
+  "version": "1.1.0",
+  "description": "Open-source Tilawah Tracker & 30-Juz Khatam Progress for 604 pages Mushaf Madinah with pluggable adapters (LocalStorage, Firestore, REST API)",
+  "main": "tilawah-tracker.js",
+  "type": "module",
+  "scripts": {
+    "test": "node -e \"import('./tilawah-tracker.js').then(() => console.log('OK'))\""
+  },
+  "keywords": [
+    "tilawah",
+    "quran-tracker",
+    "khatam",
+    "islamic",
+    "streak",
+    "mushaf",
+    "offline-first"
+  ],
+  "author": "Masjid Bilal Ecosystem",
+  "license": "MIT"
+}

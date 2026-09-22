@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quran Mushaf Standalone Module - Demo & Dokumentasi</title>
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background: #f8fafc;
+            color: #0f172a;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .demo-topbar {
+            width: 100%;
+            background: #ffffff;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 14px 20px;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+        }
+        .demo-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .demo-badge {
+            background: #ecfdf5;
+            color: #006b3f;
+            font-size: 0.75rem;
+            font-weight: 800;
+            padding: 3px 8px;
+            border-radius: 6px;
+            border: 1px solid #a7f3d0;
+        }
+        .demo-controls {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .btn-demo {
+            padding: 7px 14px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            border: 1px solid #cbd5e1;
+            background: #ffffff;
+            color: #334155;
+        }
+        .btn-demo:hover {
+            background: #f1f5f9;
+            border-color: #94a3b8;
+            color: #006b3f;
+        }
+        .btn-demo.primary {
+            background: #006b3f;
+            color: #ffffff;
+            border-color: #006b3f;
+        }
+        .btn-demo.primary:hover {
+            background: #005632;
+        }
+        .btn-demo.danger {
+            color: #dc2626;
+            border-color: #fca5a5;
+            background: #fef2f2;
+        }
+        .btn-demo.danger:hover {
+            background: #fee2e2;
+        }
+        .storage-status-pill {
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: #475569;
+            background: #f1f5f9;
+            padding: 5px 12px;
+            border-radius: 20px;
+            border: 1px solid #e2e8f0;
+        }
+
+        /* CONTAINER APLIKASI MUSHAF */
+        .viewer-wrapper {
+            width: 100%;
+            max-width: 680px;
+            height: calc(100vh - 70px);
+            height: calc(100dvh - 70px);
+            position: relative;
+            background: #fffbf2;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+        }
+
+        /* DOKUMENTASI DEVELOPER DI BAWAH (JIKA DI-SCROLL) */
+        .dev-guide-section {
+            width: 100%;
+            max-width: 800px;
+            margin: 40px auto 60px;
+            padding: 0 20px;
+            line-height: 1.6;
+        }
+        .code-block {
+            background: #0f172a;
+            color: #f8fafc;
+            padding: 16px 20px;
+            border-radius: 12px;
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+            font-size: 0.85rem;
+            overflow-x: auto;
+            margin: 12px 0 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- TOP CONTROL BAR -->
+    <header class="demo-topbar">
+        <div class="demo-brand">
+            <span style="font-weight: 800; font-size: 1.05rem; color:#006b3f;">@masjidbilal/quran-mushaf</span>
+            <span class="demo-badge">v1.1.0 Offline-First</span>
+        </div>
+        <div class="demo-controls">
+            <button type="button" class="btn-demo primary" id="btnCacheJuz">💾 Unduh Juz 1</button>
+            <button type="button" class="btn-demo" id="btnCacheAll">📦 Unduh 30 Juz</button>
+            <button type="button" class="btn-demo danger" id="btnClearCache">🗑️ Bersihkan Cache</button>
+            <span class="storage-status-pill" id="storageStatusText">Memeriksa cache...</span>
+        </div>
+    </header>
+
+    <!-- VIEWER CONTAINER (MUSHAF DISPLAY) -->
+    <main class="viewer-wrapper" id="mushafContainer"></main>
+
+    <!-- DEVELOPER QUICKSTART GUIDE -->
+    <section class="dev-guide-section">
+        <h2 style="color: #0f172a; margin-bottom: 6px;">💡 Panduan Integrasi Cepat untuk Developer</h2>
+        <p style="color: #64748b; margin-top: 0;">Modul ini dapat langsung dipakai di aplikasi Vanilla JS, React, Vue, Svelte, atau Next.js tanpa build step.</p>
+
+        <h3 style="margin-bottom: 8px; font-size: 1rem;">1. Instalasi / Import ES Module</h3>
+        <div class="code-block">
+&lt;!-- Wadah tampilan Mushaf --&gt;<br>
+&lt;div id="myQuranApp" style="width:100%; height:100vh;"&gt;&lt;/div&gt;<br><br>
+&lt;script type="module"&gt;<br>
+&nbsp;&nbsp;import { MushafEngine, MushafViewer } from './modules/quran-mushaf/index.js';<br><br>
+&nbsp;&nbsp;// 1. Inisialisasi engine offline (CacheStorage API)<br>
+&nbsp;&nbsp;const engine = new MushafEngine({ cacheName: 'app-mushaf-cache-v1' });<br><br>
+&nbsp;&nbsp;// 2. Inisialisasi viewer UI dengan bilah progres 5-tier & tap fullscreen<br>
+&nbsp;&nbsp;const viewer = new MushafViewer('#myQuranApp', {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;engine: engine,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;initialPage: 1,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;enableTapFullscreen: true,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;onPageChange: (page, details) =&gt; console.log('Halaman:', page, details),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;onJuzCompleted: (juz) =&gt; console.log('🏆 Juz Selesai:', juz)<br>
+&nbsp;&nbsp;});<br>
+&lt;/script&gt;
+        </div>
+
+        <h3 style="margin-bottom: 8px; font-size: 1rem;">2. Fitur Baru Unggulan:</h3>
+        <ul>
+            <li><b>Bilah Progres Juz 5-Tier Dinamis:</b> Emerald (1-25%) → Teal (26-50%) → Indigo (51-75%) → Amber (76-99%) → Solid Royal Gold (100% 🏆).</li>
+            <li><b>Mode Layar Penuh Murni via Tap:</b> Cukup ketuk sekali di lembaran mushaf untuk menyembunyikan header/footer tanpa tombol melayang. Mushaf & card judul tetap berada tepat di tengah layar (*center*).</li>
+            <li><b>Modal Indeks Surat & Juz Terintegrasi:</b> Ketuk card judul juz di atas untuk memilih surat dan juz secara langsung.</li>
+            <li><b>100% Offline via CacheStorage API:</b> Tidak membutuhkan koneksi internet setelah lembaran tersimpan di cache.</li>
+        </ul>
+    </section>
+
+    <!-- SCRIPT INITIALIZATION -->
+    <script type="module">
+        import { MushafEngine, MushafViewer } from '../index.js';
+
+        // 1. Inisialisasi Engine
+        const engine = new MushafEngine({
+            cacheName: 'masjid-bilal-mushaf-demo-v1'
+        });
+
+        // 2. Inisialisasi Viewer UI
+        const viewer = new MushafViewer('#mushafContainer', {
+            engine: engine,
+            initialPage: 1,
+            enableTapFullscreen: true,
+            onPageChange: (page, details) => {
+                updateStorageStatus();
+            },
+            onJuzCompleted: (juz) => {
+                console.log(`[Demo Event] Juz ${juz} tuntas dibaca!`);
+            }
+        });
+
+        // 3. Status Cache
+        const statusEl = document.getElementById('storageStatusText');
+        async function updateStorageStatus() {
+            try {
+                const status = await engine.getStorageStatus();
+                statusEl.textContent = `Offline: ${status.cachedCount} / ${status.totalPages} Hal (${status.percentage}%)`;
+            } catch (err) {
+                statusEl.textContent = 'Offline Ready';
+            }
+        }
+
+        // 4. Download Juz 1
+        const btnCacheJuz = document.getElementById('btnCacheJuz');
+        btnCacheJuz.addEventListener('click', async () => {
+            btnCacheJuz.disabled = true;
+            btnCacheJuz.textContent = 'Mengunduh...';
+            try {
+                await engine.cacheJuz(1, (curr, total, pct, page) => {
+                    btnCacheJuz.textContent = `Unduh Juz 1 (${pct}%)...`;
+                });
+                btnCacheJuz.textContent = '✅ Juz 1 Tersimpan';
+            } catch (e) {
+                btnCacheJuz.textContent = 'Gagal Mengunduh';
+            }
+            btnCacheJuz.disabled = false;
+            updateStorageStatus();
+        });
+
+        // 5. Download 30 Juz
+        const btnCacheAll = document.getElementById('btnCacheAll');
+        btnCacheAll.addEventListener('click', async () => {
+            if (!confirm('Unduh seluruh 604 halaman mushaf untuk dibaca offline tanpa internet?')) return;
+            btnCacheAll.disabled = true;
+            try {
+                await engine.cacheAll((curr, total, pct) => {
+                    btnCacheAll.textContent = `Unduh 30 Juz (${pct}%)...`;
+                });
+                btnCacheAll.textContent = '✅ 30 Juz Siap Offline';
+            } catch (e) {
+                btnCacheAll.textContent = 'Gagal Mengunduh';
+            }
+            btnCacheAll.disabled = false;
+            updateStorageStatus();
+        });
+
+        // 6. Clear Cache
+        const btnClear = document.getElementById('btnClearCache');
+        btnClear.addEventListener('click', async () => {
+            if (confirm('Bersihkan seluruh lembaran mushaf dari memori offline perangkat?')) {
+                await engine.clearCache();
+                updateStorageStatus();
+                alert('Cache offline telah dibersihkan.');
+            }
+        });
+
+        updateStorageStatus();
+    </script>
+</body>
+</html>
