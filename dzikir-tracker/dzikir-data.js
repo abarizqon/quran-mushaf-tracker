@@ -418,7 +418,7 @@ export const DZIKIR_DB = {
         {
             "id": "pagi_24",
             "title": "Istighfar & Bertaubat kepada Allah (100x)",
-            "source": "Dibaca 100x • Muttafaqun 'Alaih (HR. Al-Bukhari & Muslim)",
+            "source": "Dibaca 100x di pagi hari • HR. Ibnu Abi Syaibah & Ath-Thabarani (Shahih, Silsilah Ash-Shahihah no. 1600) & HR. Muslim no. 2702",
             "target": 100,
             "arabic": "أَسْتَغْفِرُ اللَّهَ، وَأَتُوبُ إِلَيْهِ",
             "latin": "Astaghfirullōha wa-atūbu ilaih.",
@@ -807,21 +807,6 @@ export const DZIKIR_DB = {
                 "tahlil 100x",
                 "tauhid",
                 "benteng"
-            ]
-        },
-        {
-            "id": "petang_22",
-            "title": "Istighfar & Bertaubat kepada Allah (100x)",
-            "source": "Dibaca 100x • Muttafaqun 'Alaih (HR. Al-Bukhari & Muslim)",
-            "target": 100,
-            "arabic": "أَسْتَغْفِرُ اللَّهَ، وَأَتُوبُ إِلَيْهِ",
-            "latin": "Astaghfirullōha wa-atūbu ilaih.",
-            "arti": "Aku memohon ampun kepada Allah dan bertaubat kepada-Nya.",
-            "keywords": [
-                "istighfar 100x",
-                "taubat",
-                "ampunan",
-                "dosa"
             ]
         },
         {

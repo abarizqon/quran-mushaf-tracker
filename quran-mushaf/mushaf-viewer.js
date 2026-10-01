@@ -821,11 +821,25 @@ export default class MushafViewer {
         // Search in Picker Modal
         this.searchInput.addEventListener('input', () => this._renderPickerList());
 
-        // Keyboard Navigation (RTL: Panah Kiri = Next, Panah Kanan = Prev)
+        // Keyboard Navigation (RTL: Panah Kiri = Next, Panah Kanan = Prev, Atas/Bawah = Scroll)
         window.addEventListener('keydown', (e) => {
-            if (e.target && e.target.tagName === 'INPUT') return;
-            if (e.key === 'ArrowLeft') this.nextPage();
-            if (e.key === 'ArrowRight') this.prevPage();
+            const activeTag = document.activeElement ? document.activeElement.tagName : '';
+            if (activeTag === 'INPUT' || activeTag === 'TEXTAREA' || activeTag === 'SELECT') return;
+            if (document.querySelector('.qm-modal-overlay.active')) return;
+
+            if (e.key === 'ArrowLeft' || e.keyCode === 37) {
+                e.preventDefault();
+                this.nextPage();
+            } else if (e.key === 'ArrowRight' || e.keyCode === 39) {
+                e.preventDefault();
+                this.prevPage();
+            } else if (e.key === 'ArrowDown' || e.keyCode === 40) {
+                e.preventDefault();
+                if (this.viewportEl) this.viewportEl.scrollBy({ top: 140, behavior: 'smooth' });
+            } else if (e.key === 'ArrowUp' || e.keyCode === 38) {
+                e.preventDefault();
+                if (this.viewportEl) this.viewportEl.scrollBy({ top: -140, behavior: 'smooth' });
+            }
         });
 
         // Touch & Tap Navigation in Viewport
